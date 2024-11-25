@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body{
+            display: flex
+        }
+        .sidebar{
+            min-width: 250px;
+            max-width: 250px;
+            background-color: #f8f9fa;
+            padding: 15px;
+            height: 100vh;
+            position: fixed
+        }
+        .sidebar .menu_left{
+            display: block;
+            padding: 0px 15px;
+            margin-bottom: 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .sidebar .menu_left:hover{
+            background-color: #e2e6ea;
+            color: #0056b3;
+        }
+        .content{
+            margin-left: 250px;
+            padding: 20px;
+            flex-grow: 1
+        }
+        ul{
+            list-style: none
+        }
+        .delete_chat{
+            text-decoration: none;
+            color: red
+        }
+        .delete_chat:hover{
+            text-decoration: none;
+            color: red
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="/app/profile" class="nav-link">Профиль</a>
+        <a href="/app/settings" class="nav-link">Настройки</a>
+        <a href="#" data-toggle="modal" data-target="#createChatModal">Создать чат</a>
+
+        <ul>
+            {% for chat in chats %}
+            <li>
+                <div  class="menu_left">
+                    <img src="/media/{{chat.avatar}}" width="50px">
+                    <a href="/chat/{{chat.id}}">{{chat.title}}</a>
+                    <a href="/delete/{{chat.id}}" class="delete_chat">&times;</a>
+                </div>
+            </li>
+            {% endfor %}
+
+        </ul>
+        <a href="/logout" class="nav-link">Выход</a>
+    </div>
+    <div class="content">
+        <div class="mt-5">
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+     <!-- Модальное окно аутентификации -->
+    <div class="modal fade" id="createChatModal" tabindex="-1" aria-labelledby="createChatLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createChatLabel">Создать чат</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning alert-dismissible fade show" style="display: none" role="alert">
+
+                    </div>
+                    <form action="/create_chat" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="title">Название</label>
+                            <input type="text" name="title" class="form-control" id="title" placeholder="Введите название чата" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Описание</label>
+                            <input type="text" name="description" class="form-control" id="description" placeholder="Введите описание чата">
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar">Аватарка чата</label>
+                            <input type="file" name="avatar" class="form-control" id="avatar">
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="auth" id="auth_btn" >Добавить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

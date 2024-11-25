@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Мессенджер</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Главная</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Функции</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Скачать</a>
+                </li>
+                {% if 'user' in request.session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app/panel" >Личный кабинет</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout" >Выход</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#authModal">Войти</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    <header class="jumbotron text-center">
+        <h1 class="display-4">Добро пожаловать в Мессенджер!</h1>
+        <p class="lead">Общайтесь с друзьями и коллегами легко и просто.</p>
+        <a href="#" class="btn btn-primary btn-lg">Начать</a>
+    </header>
+    <section class="container my-5">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Мгновенные сообщения</h3>
+                <p>Отправляйте и получайте сообщения в режиме реального времени.</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Групповые чаты</h3>
+                <p>Создавайте групповые чаты для общения с друзьями и коллегами.</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Безопасность</h3>
+                <p>Ваши данные надежно защищены с использованием современных технологий шифрования.</p>
+            </div>
+        </div>
+    </section>
+    <section class="container text-center my-5">
+        <h2>Скачайте наше приложение</h2>
+        <p>Доступно на всех платформах</p>
+        <a href="#" class="btn btn-secondary btn-lg">Скачать для iOS</a>
+        <a href="#" class="btn btn-secondary btn-lg">Скачать для Android</a>
+    </section>
+    <footer class="bg-dark py-4">
+        <div class="container text-center">
+            <p>Свяжитесь с нами</p>
+            <p>Email: support@messenger.com | Телефон: +7 (123) 456-78-90</p>
+        </div>
+    </footer>
+     <!-- Модальное окно аутентификации -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Войти</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning alert-dismissible fade show" style="display: none" role="alert">
+
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Введите email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Пароль</label>
+                            <input type="password" name="password" class="form-control" id="password" placeholder="Введите пароль">
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="auth" id="auth_btn" >Войти</button>
+                        <button type="submit" class="btn btn-primary" name="reg" id="reg_btn" >Регистрация</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
